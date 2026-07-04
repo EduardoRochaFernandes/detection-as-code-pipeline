@@ -1,0 +1,4 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -Command Get-Process | Sort-Object CPU -Descending", "ParentImage": "C:\\Windows\\explorer.exe", "User": "WIN-EP-01\\alice", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:10:00Z"},
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -File C:\\Scripts\\Backup-Reports.ps1 -Path D:\\Reports", "ParentImage": "C:\\Windows\\System32\\taskeng.exe", "User": "WIN-EP-01\\svc_reports", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:11:00Z"}
+]

@@ -1,0 +1,4 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\wevtutil.exe", "CommandLine": "wevtutil cl Security", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T15:00:00Z"},
+  {"EventID": 1102, "Channel": "Security", "SubjectUserName": "administrator", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T15:00:01Z"}
+]

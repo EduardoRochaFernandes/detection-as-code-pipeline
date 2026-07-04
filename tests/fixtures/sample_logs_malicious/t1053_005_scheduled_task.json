@@ -1,0 +1,3 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\schtasks.exe", "CommandLine": "schtasks.exe /create /tn \"Updater\" /tr \"powershell -w hidden -c IEX(...)\" /sc minute /mo 5", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T14:10:00Z"}
+]

@@ -1,0 +1,4 @@
+[
+  {"src_ip": "10.0.0.44", "DestinationHostname": "www.microsoft.com", "uri": "/en-us/", "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", "Computer": "WIN-EP-02", "timestamp": "2026-07-04T12:00:00Z"},
+  {"src_ip": "10.0.0.44", "DestinationHostname": "update.contoso.com", "uri": "/v2/manifest", "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edg/120.0.0.0", "Computer": "WIN-EP-02", "timestamp": "2026-07-04T12:01:00Z"}
+]

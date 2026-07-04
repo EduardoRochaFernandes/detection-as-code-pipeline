@@ -1,0 +1,4 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\net.exe", "CommandLine": "net user svc_helper P@ssw0rd123 /add", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T17:05:00Z"},
+  {"EventID": 4720, "TargetUserName": "svc_helper", "SubjectUserName": "administrator", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T17:05:01Z"}
+]

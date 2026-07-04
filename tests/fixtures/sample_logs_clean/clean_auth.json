@@ -1,0 +1,8 @@
+[
+  {"EventID": 4625, "LogonType": 10, "IpAddress": "10.0.0.20", "TargetUserName": "bob", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T08:00:01Z"},
+  {"EventID": 4625, "LogonType": 10, "IpAddress": "10.0.0.20", "TargetUserName": "bob", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T08:00:20Z"},
+  {"EventID": 4625, "LogonType": 10, "IpAddress": "10.0.0.20", "TargetUserName": "bob", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T08:00:47Z"},
+  {"EventID": 4624, "LogonType": 10, "IpAddress": "10.0.0.20", "TargetUserName": "bob", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T08:01:05Z"},
+  {"EventID": 4624, "LogonType": 2, "IpAddress": "-", "TargetUserName": "alice", "Computer": "WIN-EP-02", "timestamp": "2026-07-04T08:05:00Z"},
+  {"EventID": 4624, "LogonType": 3, "IpAddress": "10.0.0.44", "TargetUserName": "alice", "Computer": "FILESRV-01", "timestamp": "2026-07-04T08:06:00Z"}
+]

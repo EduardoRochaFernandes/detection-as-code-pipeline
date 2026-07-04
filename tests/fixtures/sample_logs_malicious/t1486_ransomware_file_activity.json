@@ -1,0 +1,142 @@
+[
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_000.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:00Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_001.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:01Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_002.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:02Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_003.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:03Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_004.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:04Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_005.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:05Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_006.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:06Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_007.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:07Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_008.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:08Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_009.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:09Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_010.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:10Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_011.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:11Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_012.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:12Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_013.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:13Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_014.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:14Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_015.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:15Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_016.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:16Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_017.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:17Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_018.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:18Z"
+  },
+  {
+    "EventID": 11,
+    "TargetFilename": "C:\\Users\\labuser\\Documents\\file_019.locked",
+    "Image": "C:\\Users\\labuser\\AppData\\Local\\Temp\\cryptor.exe",
+    "Computer": "WIN-EP-01",
+    "timestamp": "2026-07-04T18:00:19Z"
+  }
+]

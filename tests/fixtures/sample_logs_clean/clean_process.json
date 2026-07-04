@@ -1,0 +1,6 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\net.exe", "CommandLine": "net use Z: \\\\fileserver\\share /persistent:yes", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:00:00Z"},
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\schtasks.exe", "CommandLine": "schtasks.exe /query /fo LIST", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:01:00Z"},
+  {"EventID": 1, "Image": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "CommandLine": "chrome.exe --profile-directory=Default", "ParentImage": "C:\\Windows\\explorer.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:02:00Z"},
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\reg.exe", "CommandLine": "reg query HKLM\\Software\\Microsoft\\Windows\\CurrentVersion /v ProgramFilesDir", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:03:00Z"}
+]

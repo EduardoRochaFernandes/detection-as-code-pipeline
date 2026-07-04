@@ -1,0 +1,90 @@
+# Maps each Sigma rule to the Atomic Red Team test(s) that exercise it, and to
+# the captured log fixture used for CI validation. `expects_alert: true` means
+# the malicious fixture MUST make the rule fire (true-positive test). The clean
+# baseline (tests/fixtures/sample_logs_clean/) is tested separately against ALL
+# rules by test_false_positive_baseline.py.
+#
+# target_host / atomic_test_numbers are what pipeline/run_atomics.py consumes to
+# drive the live Windows endpoint; in this fixture-based CI they document
+# provenance -- i.e. exactly which atomic produced each captured fixture.
+
+- sigma_rule: t1110_001_brute_force_rdp.yml
+  atomic_technique: T1110.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1059_001_suspicious_powershell.yml
+  atomic_technique: T1059.001
+  atomic_test_numbers: [2, 3]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1003_001_credential_dumping_lsass.yml
+  atomic_technique: T1003.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+  notes: "Run only in an isolated lab VM -- this atomic interacts with LSASS."
+
+- sigma_rule: t1547_001_registry_run_key_persistence.yml
+  atomic_technique: T1547.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1021_002_lateral_movement_smb.yml
+  atomic_technique: T1021.002
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1053_005_scheduled_task.yml
+  atomic_technique: T1053.005
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1070_001_clear_event_logs.yml
+  atomic_technique: T1070.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1078_valid_accounts_builtin_logon.yml
+  atomic_technique: T1078
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+  notes: "Log-based / manual atomic; fixture captured from a scripted built-in-account logon."
+
+- sigma_rule: t1071_001_c2_beaconing_web.yml
+  atomic_technique: T1071.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1136_001_create_local_account.yml
+  atomic_technique: T1136.001
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1486_ransomware_file_activity.yml
+  atomic_technique: T1486
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true
+  notes: "Destructive impact atomic -- isolated lab VM with disposable files only."
+
+- sigma_rule: t1018_remote_system_discovery.yml
+  atomic_technique: T1018
+  atomic_test_numbers: [1, 4]
+  target_host: win-endpoint-01
+  expects_alert: true
+
+- sigma_rule: t1055_process_injection.yml
+  atomic_technique: T1055
+  atomic_test_numbers: [1]
+  target_host: win-endpoint-01
+  expects_alert: true

@@ -1,0 +1,3 @@
+[
+  {"EventID": 8, "SourceImage": "C:\\Users\\labuser\\AppData\\Local\\Temp\\loader.exe", "TargetImage": "C:\\Windows\\explorer.exe", "NewThreadId": "4820", "StartAddress": "0x00007FF8C1230000", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T20:00:00Z"}
+]

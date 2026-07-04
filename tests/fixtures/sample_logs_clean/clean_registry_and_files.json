@@ -1,0 +1,6 @@
+[
+  {"EventID": 13, "EventType": "SetValue", "TargetObject": "HKLM\\Software\\Contoso\\App\\Settings\\Theme", "Details": "Dark", "Image": "C:\\Program Files\\Contoso\\app.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T11:00:00Z"},
+  {"EventID": 11, "TargetFilename": "C:\\Users\\alice\\Documents\\quarterly_report.docx", "Image": "C:\\Program Files\\Microsoft Office\\WINWORD.EXE", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T11:01:00Z"},
+  {"EventID": 11, "TargetFilename": "C:\\Users\\alice\\AppData\\Local\\Temp\\office~tmp.tmp", "Image": "C:\\Program Files\\Microsoft Office\\WINWORD.EXE", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T11:01:05Z"},
+  {"EventID": 11, "TargetFilename": "C:\\Logs\\app-2026-07-04.log", "Image": "C:\\Program Files\\Contoso\\app.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T11:02:00Z"}
+]

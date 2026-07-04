@@ -1,0 +1,4 @@
+[
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\net.exe", "CommandLine": "net use \\\\10.10.10.20\\ADMIN$ /user:CORP\\administrator P@ssw0rd", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T13:40:00Z"},
+  {"EventID": 1, "Image": "C:\\Windows\\System32\\xcopy.exe", "CommandLine": "xcopy payload.exe \\\\10.10.10.20\\C$\\Windows\\Temp\\ /Y", "ParentImage": "C:\\Windows\\System32\\cmd.exe", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T13:40:04Z"}
+]
