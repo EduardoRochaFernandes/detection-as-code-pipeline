@@ -1,0 +1,9 @@
+# Detection-as-Code pipeline dependencies.
+# The in-memory matcher + test suite only need pyyaml + pytest; the rest are for
+# rule conversion (pysigma backends), deployment, and atomic orchestration.
+pyyaml>=6.0
+pytest>=8.0
+pysigma>=0.11
+pysigma-backend-elasticsearch>=1.1
+requests>=2.31
+pywinrm>=0.4        # only needed on the lab control host for run_atomics.py
