@@ -46,7 +46,12 @@ flowchart TD
 ```
 Full write-up: [docs/architecture.md](docs/architecture.md).
 
-## Quickstart (no lab required — reproduces the pipeline in a minute)
+## Try it in 60 seconds — no API keys, no signup, no lab
+
+Everything below runs with **zero external accounts**. No VirusTotal/AbuseIPDB/OTX/
+Anthropic key, no Docker, no Windows VM required — this is deliberate, so a
+reviewer (or a recruiter) can clone and verify the whole thing works without
+asking anyone for credentials.
 
 ```bash
 git clone <repo-url> && cd detection-as-code-pipeline
@@ -54,12 +59,20 @@ python -m pip install -r pipeline/requirements.txt
 python -m pytest tests/ -v            # 80 checks: syntax + true-positive + false-positive
 python pipeline/compute_metrics.py    # coverage metrics -> metrics.json
 ```
-Then the triage assistant, fully offline:
+Then the AI triage assistant — it degrades gracefully to a deterministic,
+no-LLM report when no keys are configured, so this also runs with nothing set up:
 ```bash
 python -m pip install -r triage-assistant/requirements.txt
 cd triage-assistant && python -m app.main --alert sample_alerts/example_rdp_bruteforce_alert.json
 ```
-Full lab bring-up (Wazuh + Sysmon endpoint + Atomic Red Team):
+Want to see the *enriched* path (real VirusTotal/AbuseIPDB/OTX lookups and an
+LLM-written narrative instead of the deterministic template)? Copy
+`.env.example` to `.env` and drop in your own free-tier keys — see
+[.env.example](.env.example) for exactly which ones and where to get them. No
+real keys are committed to this repo (see [Limitations](#limitations--honest-trade-offs)
+and the Gitleaks CI job that fails the build if one ever is).
+
+Full live-lab bring-up (Wazuh + Sysmon endpoint + Atomic Red Team):
 [docs/setup-guide.md](docs/setup-guide.md).
 
 ## What's inside
