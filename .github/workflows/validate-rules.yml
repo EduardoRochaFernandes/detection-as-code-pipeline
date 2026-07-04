@@ -1,0 +1,28 @@
+name: Validate Sigma Rules
+
+# Fast feedback on every push/PR that touches rules or tests: syntax + metadata
+# only. This is Tier 1 (unit) and runs in seconds.
+on:
+  push:
+    paths:
+      - "rules/sigma/**"
+      - "tests/**"
+      - "pipeline/**"
+  pull_request:
+    paths:
+      - "rules/sigma/**"
+      - "tests/**"
+
+jobs:
+  syntax-and-metadata:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install pysigma pyyaml pytest
+      - name: Run syntax and metadata tests
+        run: pytest tests/test_rule_syntax.py -v

@@ -1,0 +1,73 @@
+name: Test and Deploy Detections
+
+# The full detection-validation + deploy pipeline. This is the heart of the
+# project's thesis: the `deploy` job `needs: detection-tests` and only runs on
+# success, so an untested or broken detection can never reach the SIEM.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "rules/sigma/**"
+      - "tests/**"
+      - "pipeline/**"
+  workflow_dispatch: {}
+
+jobs:
+  detection-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt
+      - name: Tier 1 - syntax & metadata
+        run: pytest tests/test_rule_syntax.py -v
+      - name: Convert Sigma rules to backend queries
+        run: python pipeline/convert_rules.py --backend elasticsearch --out rules/converted/elastic
+      - name: Tier 2 - detection fires on attack telemetry (true positive)
+        run: pytest tests/test_detection_fires.py -v
+      - name: Tier 2 - no fire on clean baseline (false positive guardrail)
+        run: pytest tests/test_false_positive_baseline.py -v
+      - name: Refresh coverage metrics
+        run: python pipeline/compute_metrics.py
+      - name: Upload validated + converted rules as build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: validated-detections
+          path: |
+            rules/sigma/**
+            rules/converted/**
+            metrics.json
+
+  deploy:
+    needs: detection-tests
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download validated detections
+        uses: actions/download-artifact@v4
+        with:
+          name: validated-detections
+      - name: Deploy passing rules to lab SIEM (or document artifact-only)
+        env:
+          WAZUH_API_URL: ${{ secrets.WAZUH_API_URL }}
+          WAZUH_API_USER: ${{ secrets.WAZUH_API_USER }}
+          WAZUH_API_PASSWORD: ${{ secrets.WAZUH_API_PASSWORD }}
+        run: |
+          # GitHub-hosted runners cannot reach a home-lab SIEM. If Wazuh API
+          # secrets are configured (self-hosted runner / reachable lab), deploy;
+          # otherwise the validated rules above are the deployable artifact and
+          # deployment is manual-but-gated. This is documented honestly in the
+          # README rather than faked.
+          if [ -n "$WAZUH_API_URL" ]; then
+            pip install requests
+            python pipeline/deploy_rules.py --source rules/converted/wazuh
+          else
+            echo "No WAZUH_API_URL secret set -> artifact-only deployment."
+            echo "Download the 'validated-detections' artifact and run:"
+            echo "  python pipeline/deploy_rules.py --source rules/converted/wazuh"
+          fi
