@@ -1,0 +1,131 @@
+"""
+Triage assistant entrypoint (brief Section 7.8).
+
+CLI usage (works fully offline -- deterministic report, no keys needed):
+    cd triage-assistant
+    python -m app.main --alert sample_alerts/example_rdp_bruteforce_alert.json
+
+It runs the full loop: ingest -> enrich -> correlate -> score -> report, writes a
+Markdown report and a JSON blob, and (if ESCALATION_WEBHOOK_URL is set and the
+score crosses the review threshold) posts a notification.
+
+`poll_wazuh` is the Phase 1 <-> Phase 2 bridge: it is READY TO RUN once the lab is
+up -- it periodically pulls new Wazuh alerts and triages each one.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from pathlib import Path
+
+# Make `app` importable whether run as `-m app.main` or as a bare script.
+_APP_PARENT = Path(__file__).resolve().parents[1]
+if str(_APP_PARENT) not in sys.path:
+    sys.path.insert(0, str(_APP_PARENT))
+
+from app import correlate, enrich, ingest, report, score  # noqa: E402
+from app.models import TriageReport  # noqa: E402
+
+
+def triage_one(raw_alert: dict, related_events: list[dict] | None = None) -> TriageReport:
+    alert = ingest.normalize(raw_alert)
+    enrichment = enrich.enrich_alert(alert.source_ip, alert.file_hash)
+    related = correlate.find_related_events_local(alert, related_events or [])
+    timeline = correlate.build_timeline(alert, related)
+    composite, _breakdown = score.score_alert(
+        alert.severity, enrichment.ip_reputation, enrichment.file_reputation, related
+    )
+    narrative, generated_by = report.generate_report(alert, enrichment, timeline, composite)
+    return TriageReport(
+        alert=alert,
+        enrichment=enrichment,
+        timeline=timeline,
+        composite_score=composite,
+        requires_immediate_review=composite >= score.REVIEW_THRESHOLD,
+        narrative_markdown=narrative,
+        generated_by=generated_by,
+    )
+
+
+def _maybe_escalate(rep: TriageReport) -> None:
+    url = os.environ.get("ESCALATION_WEBHOOK_URL")
+    if not (url and rep.requires_immediate_review):
+        return
+    import requests
+    try:
+        requests.post(url, json={
+            "text": f":rotating_light: Alert '{rep.alert.rule_name}' scored "
+                    f"{rep.composite_score}/100 on {rep.alert.hostname} — needs review."
+        }, timeout=10)
+        print("[+] Escalation webhook notified.")
+    except requests.RequestException as e:
+        print(f"[!] Escalation webhook failed: {e}")
+
+
+def poll_wazuh(interval_seconds: int = 30) -> None:  # pragma: no cover - needs live lab
+    """READY TO RUN once the lab is up: poll Wazuh for new alerts and triage them."""
+    import time
+    import requests
+    api = os.environ["WAZUH_API_URL"]
+    auth = (os.environ["WAZUH_API_USER"], os.environ["WAZUH_API_PASSWORD"])
+    token = requests.post(f"{api}/security/user/authenticate", auth=auth, verify=False, timeout=15).json()["data"]["token"]
+    seen: set[str] = set()
+    while True:
+        r = requests.get(f"{api}/alerts", headers={"Authorization": f"Bearer {token}"},
+                         params={"limit": 20, "sort": "-timestamp"}, verify=False, timeout=15)
+        for raw in r.json().get("data", {}).get("affected_items", []):
+            aid = str(raw.get("id"))
+            if aid in seen:
+                continue
+            seen.add(aid)
+            rep = triage_one(raw)
+            _write_report(rep, Path("reports"))
+            _maybe_escalate(rep)
+        time.sleep(interval_seconds)
+
+
+def _write_report(rep: TriageReport, out_dir: Path) -> tuple[Path, Path]:
+    out_dir.mkdir(parents=True, exist_ok=True)
+    stem = f"report_{rep.alert.alert_id}"
+    md_path = out_dir / f"{stem}.md"
+    json_path = out_dir / f"{stem}.json"
+    md_path.write_text(rep.narrative_markdown, encoding="utf-8")
+    json_path.write_text(rep.model_dump_json(indent=2), encoding="utf-8")
+    return md_path, json_path
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="AI-powered SIEM alert triage assistant")
+    parser.add_argument("--alert", required=True, help="Path to an alert JSON file")
+    parser.add_argument("--related-logs", help="Optional JSON list of events for correlation")
+    parser.add_argument("--out", default="reports", help="Output directory")
+    args = parser.parse_args()
+
+    raw_alert = json.loads(Path(args.alert).read_text(encoding="utf-8"))
+    related = None
+    if args.related_logs:
+        related = json.loads(Path(args.related_logs).read_text(encoding="utf-8"))
+    else:
+        default_related = _APP_PARENT / "sample_alerts" / "example_related_events.json"
+        if default_related.exists():
+            related = json.loads(default_related.read_text(encoding="utf-8"))
+
+    rep = triage_one(raw_alert, related)
+    md_path, json_path = _write_report(rep, Path(args.out))
+    _maybe_escalate(rep)
+
+    print(f"[+] Report generated by: {rep.generated_by}")
+    print(f"[+] Composite score: {rep.composite_score}/100  "
+          f"(requires_immediate_review={rep.requires_immediate_review})")
+    print(f"[+] Markdown: {md_path}")
+    print(f"[+] JSON:     {json_path}")
+    print("\n" + "=" * 70 + "\n")
+    print(rep.narrative_markdown)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

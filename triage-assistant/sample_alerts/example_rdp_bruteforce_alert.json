@@ -1,0 +1,25 @@
+{
+  "id": "1720084519.123456",
+  "timestamp": "2026-07-04T09:15:19.000+00:00",
+  "rule": {
+    "level": 10,
+    "description": "Possible RDP brute force: 8+ failed logons from one source",
+    "mitre": {
+      "id": ["T1110.001"],
+      "tactic": ["Credential Access"]
+    }
+  },
+  "agent": {
+    "id": "001",
+    "name": "WIN-EP-01"
+  },
+  "data": {
+    "srcip": "45.83.90.12",
+    "dstuser": "administrator",
+    "win": {
+      "eventdata": {
+        "logonType": "10"
+      }
+    }
+  }
+}

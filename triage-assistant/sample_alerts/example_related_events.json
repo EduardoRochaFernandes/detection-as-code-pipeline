@@ -1,0 +1,6 @@
+[
+  {"EventID": 4625, "LogonType": 10, "IpAddress": "45.83.90.12", "TargetUserName": "administrator", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:15:05+00:00"},
+  {"EventID": 4625, "LogonType": 10, "IpAddress": "45.83.90.12", "TargetUserName": "administrator", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:15:11+00:00"},
+  {"EventID": 4624, "LogonType": 10, "IpAddress": "45.83.90.12", "TargetUserName": "administrator", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:15:19+00:00"},
+  {"EventID": 1, "IpAddress": "45.83.90.12", "Computer": "WIN-EP-01", "timestamp": "2026-07-04T09:22:40+00:00", "rule": {"description": "Lateral Movement via SMB Admin Shares", "mitre": {"id": ["T1021.002"]}}}
+]
