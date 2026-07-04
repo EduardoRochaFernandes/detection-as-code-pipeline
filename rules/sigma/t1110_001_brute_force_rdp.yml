@@ -1,0 +1,35 @@
+title: Multiple Failed RDP Logons From a Single Source (Possible Brute Force)
+id: 93e8a2f1-a3e4-4684-9885-2f6856f65733
+status: experimental
+description: >
+  Detects a high volume of failed RDP authentication attempts (Windows Security
+  Event ID 4625 with LogonType 10) originating from a single source IP within a
+  short window. This pattern is characteristic of a password brute-force or
+  password-spray attack against Internet- or LAN-exposed RDP.
+  NOTE: The "failed attempts FOLLOWED BY a success" correlation described in the
+  MITRE reference is intentionally NOT modelled in this single rule -- sequence
+  correlation across two event types belongs to the SIEM correlation layer or a
+  Sigma correlation rule (tracked as future work in the roadmap). This rule
+  covers only the brute-force burst itself, which is the high-signal primitive.
+references:
+  - https://attack.mitre.org/techniques/T1110/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.001/T1110.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.credential_access
+  - attack.t1110.001
+logsource:
+  product: windows
+  service: security
+detection:
+  failed_logon:
+    EventID: 4625
+    LogonType: 10
+  condition: failed_logon | count() by IpAddress >= 8
+falsepositives:
+  - Legitimate users who repeatedly mistype their password (rare at >=8 within
+    the collection window; tune the threshold per environment).
+  - Shared jump-box/bastion hosts with many short-lived RDP sessions from one NAT egress IP.
+  - Monitoring/health-check tooling that authenticates to RDP on a schedule.
+level: high

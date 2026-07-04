@@ -1,0 +1,33 @@
+title: Windows Event Log Cleared (Anti-Forensics)
+id: c297d16e-4aa6-4ba7-a085-77acf03d1d31
+status: experimental
+description: >
+  Detects clearing of Windows event logs, a defense-evasion / anti-forensics
+  action taken to destroy evidence. Covered two ways: the native audit event
+  for a cleared Security log (Event ID 1102) and the tooling used to do it from
+  the command line (wevtutil cl, Clear-EventLog, `Get-WinEvent ... -ClearLog`).
+references:
+  - https://attack.mitre.org/techniques/T1070/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1070.001/T1070.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.defense_evasion
+  - attack.t1070.001
+logsource:
+  product: windows
+detection:
+  audit_log_cleared:
+    EventID:
+      - 1102
+      - 104
+  tooling:
+    CommandLine|contains:
+      - 'wevtutil cl'
+      - 'wevtutil clear-log'
+      - 'Clear-EventLog'
+      - 'ClearMyTracksByProcess'
+  condition: audit_log_cleared or tooling
+falsepositives:
+  - Rare legitimate log maintenance by an administrator (should still be reviewed).
+level: high

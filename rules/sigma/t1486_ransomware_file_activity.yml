@@ -1,0 +1,36 @@
+title: Mass File Rename to Ransom Extension (Possible Ransomware)
+id: 008168d7-c2ad-4bdb-aa91-e7fc7a35e704
+status: experimental
+description: >
+  Detects a burst of file-create/rename events (Sysmon Event ID 11) whose target
+  filenames carry known ransomware extensions on a single host in a short window.
+  Individually a `.locked` file is nothing; dozens of them from one host in
+  seconds is a strong impact-stage signal. This is an aggregation rule: it fires
+  on the VOLUME of ransom-extension writes per host, not a single event.
+references:
+  - https://attack.mitre.org/techniques/T1486/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1486/T1486.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.impact
+  - attack.t1486
+logsource:
+  product: windows
+  category: file_event
+detection:
+  ransom_ext_write:
+    EventID: 11
+    TargetFilename|endswith:
+      - '.locked'
+      - '.encrypted'
+      - '.enc'
+      - '.crypt'
+      - '.ryk'
+      - '.lockbit'
+      - '.wcry'
+  condition: ransom_ext_write | count() by Computer >= 15
+falsepositives:
+  - Legitimate bulk encryption/archival tooling using these extensions (rare).
+  - A developer or test harness deliberately generating many `.enc` files.
+level: critical

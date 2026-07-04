@@ -1,0 +1,38 @@
+title: Lateral Movement via SMB Admin Shares
+id: 293b2ba7-e825-4b99-9729-0d89e764f12a
+status: experimental
+description: >
+  Detects interactive use of administrative SMB shares (ADMIN$, C$, IPC$) for
+  lateral movement -- e.g. `net use \\host\ADMIN$`, `copy` to a `C$` path, or a
+  PsExec-style service push. Covers both the command-line primitive
+  (process_creation) and a network-logon primitive (Event ID 4624 LogonType 3
+  by a privileged account to an admin share host).
+references:
+  - https://attack.mitre.org/techniques/T1021/002/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1021.002/T1021.002.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.lateral_movement
+  - attack.t1021.002
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  net_use_admin_share:
+    CommandLine|contains:
+      - '\ADMIN$'
+      - '\C$\'
+      - '\IPC$'
+  net_or_copy:
+    CommandLine|contains:
+      - 'net use '
+      - 'copy '
+      - 'xcopy '
+      - 'robocopy '
+      - 'psexec'
+  condition: net_use_admin_share and net_or_copy
+falsepositives:
+  - Legitimate administrators and backup/deployment tools that access admin shares.
+  - Software distribution systems (SCCM/PDQ) copying installers to C$.
+level: high

@@ -1,0 +1,43 @@
+title: Suspicious Web User-Agent (Possible C2 Over HTTP/S)
+id: f5739e85-bd6a-4725-97fe-df39c3fe086b
+status: experimental
+description: >
+  Detects outbound web requests whose User-Agent string matches known
+  scripting-runtime or offensive-tooling defaults (empty UA, PowerShell,
+  python-requests, curl, Go-http-client, or a raw WinHTTP UA), which frequently
+  indicate command-and-control or a download stager rather than a real browser.
+  Intended to run over proxy/Zeek http.log or Sysmon Event ID 22/3 enriched with
+  the request User-Agent.
+  HONEST SCOPE NOTE: true *beaconing* detection needs timing-interval analysis
+  across many connections (jitter/periodicity), which is stateful and out of
+  scope for a stateless rule -- that is flagged as future network-analytics work.
+references:
+  - https://attack.mitre.org/techniques/T1071/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1071.001/T1071.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.command_and_control
+  - attack.t1071.001
+logsource:
+  category: proxy
+detection:
+  ua_exact:
+    UserAgent:
+      - ''
+      - 'python-requests'
+  ua_prefix:
+    UserAgent|startswith:
+      - 'curl/'
+      - 'Go-http-client/'
+      - 'WinHttp'
+      - 'Mozilla/5.0 (Windows NT; Windows NT'
+  ua_powershell:
+    UserAgent|contains:
+      - 'WindowsPowerShell'
+      - 'Microsoft.PowerShell'
+  condition: ua_exact or ua_prefix or ua_powershell
+falsepositives:
+  - Legitimate automation, monitoring, and package managers use scripting user-agents.
+  - Some enterprise software ships with a curl/Go HTTP client library.
+level: medium

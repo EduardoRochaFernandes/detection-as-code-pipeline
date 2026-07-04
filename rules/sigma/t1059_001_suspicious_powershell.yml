@@ -1,0 +1,51 @@
+title: Suspicious PowerShell Execution (Encoded / Download Cradle)
+id: 9b8620d9-20de-4ef0-acd9-fcf1a0cda8b5
+status: experimental
+description: >
+  Detects PowerShell process creation whose command line contains hallmarks of
+  offensive tradecraft: a base64 `-EncodedCommand` payload, execution-policy
+  bypass combined with a hidden window, or an in-memory download cradle
+  (DownloadString / IEX / Net.WebClient). These flags are individually noisy but
+  their combination is a strong signal of an attacker or malware loader.
+  MODIFIED FROM COMMUNITY BASELINE: the public Sigma rule keys only on
+  `-enc`/`-EncodedCommand`; this version additionally OR-matches download-cradle
+  strings observed in the T1059.001 atomics, so the lab telemetry actually
+  trips the rule. Modification documented in mitre_attack/coverage_map.md.
+references:
+  - https://attack.mitre.org/techniques/T1059/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1059.001/T1059.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.execution
+  - attack.t1059.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_img:
+    Image|endswith:
+      - '\powershell.exe'
+      - '\pwsh.exe'
+  selection_encoded:
+    CommandLine|contains:
+      - ' -enc '
+      - ' -EncodedCommand '
+      - ' -e '
+  selection_bypass:
+    CommandLine|contains|all:
+      - 'bypass'
+      - 'hidden'
+  selection_cradle:
+    CommandLine|contains:
+      - 'DownloadString'
+      - 'DownloadFile'
+      - 'Net.WebClient'
+      - 'IEX('
+      - 'Invoke-Expression'
+      - 'FromBase64String'
+  condition: selection_img and (selection_encoded or selection_bypass or selection_cradle)
+falsepositives:
+  - Legitimate administrative or software-deployment scripts that use encoded commands or remote script pulls.
+  - Some EDR and management agents wrap PowerShell in encoded command lines.
+level: high

@@ -1,0 +1,44 @@
+title: Interactive Logon by Built-in / Service Account (Valid Account Misuse)
+id: 92dcffa6-40bd-44bc-b410-147eeb898936
+status: experimental
+description: >
+  Detects an interactive or remote-interactive logon (Event ID 4624, LogonType
+  2 or 10) by an account that should never log on that way: built-in accounts
+  (Guest, DefaultAccount) or non-interactive service accounts. Abuse of
+  otherwise-valid accounts is a common initial-access / persistence technique.
+  HONEST SCOPE NOTE: the classic T1078 signals of impossible-travel and
+  off-hours logon require STATEFUL correlation (geo-IP + per-user baseline of
+  normal hours), which a single stateless Sigma rule cannot express. Rather than
+  fake that, this rule covers the stateless, high-signal slice -- privileged
+  built-in/service accounts logging on interactively -- and the stateful
+  variants are tracked as future work (see roadmap and coverage_map).
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1078/T1078.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.initial_access
+  - attack.persistence
+  - attack.t1078
+logsource:
+  product: windows
+  service: security
+detection:
+  interactive_logon:
+    EventID: 4624
+    LogonType:
+      - 2
+      - 10
+  watchlist_account:
+    TargetUserName:
+      - 'Guest'
+      - 'DefaultAccount'
+      - 'svc_backup'
+      - 'svc_sql'
+      - 'HealthMailbox'
+  condition: interactive_logon and watchlist_account
+falsepositives:
+  - A break-glass procedure that legitimately uses a normally-non-interactive account.
+  - Service-account watchlist not tuned to the specific environment (customize the list).
+level: high

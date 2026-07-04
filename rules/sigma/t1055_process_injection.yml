@@ -1,0 +1,38 @@
+title: Process Injection via CreateRemoteThread
+id: f9128f45-b391-4dc6-8e0f-4d268fcd6197
+status: experimental
+description: >
+  Detects cross-process code injection using the Sysmon CreateRemoteThread
+  event (Event ID 8), optionally narrowed to injections INTO common LOLBin /
+  living-off-the-land target processes (explorer, svchost, rundll32, notepad)
+  that are frequent injection sinks for shellcode runners. Process injection is a
+  defense-evasion staple used to run code under the identity of a trusted process.
+  MODIFIED FROM COMMUNITY BASELINE: added a TargetImage watchlist so the rule is
+  higher-signal than "any CreateRemoteThread ever"; documented in coverage_map.
+references:
+  - https://attack.mitre.org/techniques/T1055/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1055/T1055.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.defense_evasion
+  - attack.privilege_escalation
+  - attack.t1055
+logsource:
+  product: windows
+  category: create_remote_thread
+detection:
+  remote_thread:
+    EventID: 8
+  target_lolbin:
+    TargetImage|endswith:
+      - '\explorer.exe'
+      - '\svchost.exe'
+      - '\rundll32.exe'
+      - '\notepad.exe'
+      - '\dllhost.exe'
+      - '\werfault.exe'
+  condition: remote_thread and target_lolbin
+falsepositives:
+  - Some debuggers, EDR agents, and legitimate injectors (e.g. certain DRM or accessibility tools) use CreateRemoteThread.
+level: high

@@ -1,0 +1,32 @@
+title: Local Account Creation
+id: 89db8c35-d172-4c75-909a-5b1fa25b18c9
+status: experimental
+description: >
+  Detects creation of a new local account, a common persistence / backdoor step
+  after initial access. Covered two ways: the Security audit event for a created
+  user (Event ID 4720) and the command-line primitive (`net user <name> /add`,
+  `New-LocalUser`). Frequently paired with a follow-up add to a privileged group.
+references:
+  - https://attack.mitre.org/techniques/T1136/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1136.001/T1136.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.persistence
+  - attack.t1136.001
+logsource:
+  product: windows
+detection:
+  audit_user_created:
+    EventID: 4720
+  net_user_add:
+    CommandLine|contains|all:
+      - 'net user'
+      - '/add'
+  new_localuser:
+    CommandLine|contains: 'New-LocalUser'
+  condition: audit_user_created or net_user_add or new_localuser
+falsepositives:
+  - Legitimate IT provisioning of new local users.
+  - Software installers that create dedicated service accounts.
+level: medium

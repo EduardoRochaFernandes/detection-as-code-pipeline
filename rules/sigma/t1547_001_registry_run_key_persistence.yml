@@ -1,0 +1,32 @@
+title: Registry Run Key Persistence
+id: b66aad7a-f25f-44c1-93a7-872e1643c91b
+status: experimental
+description: >
+  Detects creation or modification of autostart values under the well-known
+  Run / RunOnce registry keys (Sysmon Event ID 13, registry value set). This is
+  one of the most common persistence mechanisms because the payload runs at
+  every user logon. The rule keys on the target registry path rather than on the
+  payload, so it catches persistence regardless of what is being launched.
+references:
+  - https://attack.mitre.org/techniques/T1547/001/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.001/T1547.001.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.persistence
+  - attack.t1547.001
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection:
+    EventID: 13
+    TargetObject|contains:
+      - '\Software\Microsoft\Windows\CurrentVersion\Run\'
+      - '\Software\Microsoft\Windows\CurrentVersion\RunOnce\'
+      - '\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Run\'
+  condition: selection
+falsepositives:
+  - Legitimate software adding itself to startup during installation or update.
+  - Enterprise management/GPO tooling that writes Run keys as part of deployment.
+level: medium

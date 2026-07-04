@@ -1,0 +1,36 @@
+title: Remote System Discovery (Network Enumeration)
+id: 211262c4-1868-4b50-b96a-658599a94484
+status: experimental
+description: >
+  Detects built-in Windows utilities used to enumerate other hosts on the
+  network -- `net view`, `net group "domain computers"`, `arp -a`, `nltest
+  /dclist`, and ping-sweep loops. Discovery is a mid-kill-chain tactic; catching
+  it early gives responders time before lateral movement.
+references:
+  - https://attack.mitre.org/techniques/T1018/
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1018/T1018.md
+author: Eduardo Fernandes
+date: 2026/07/04
+tags:
+  - attack.discovery
+  - attack.t1018
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  net_view:
+    Image|endswith: '\net.exe'
+    CommandLine|contains: ' view'
+  arp_scan:
+    Image|endswith: '\arp.exe'
+    CommandLine|contains: '-a'
+  nltest:
+    Image|endswith: '\nltest.exe'
+    CommandLine|contains:
+      - '/dclist'
+      - '/domain_trusts'
+  condition: net_view or arp_scan or nltest
+falsepositives:
+  - Administrators and inventory/monitoring tools running discovery commands.
+  - Logon scripts that map drives via `net view`.
+level: low
