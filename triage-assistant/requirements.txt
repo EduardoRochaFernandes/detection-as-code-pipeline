@@ -10,4 +10,4 @@ anthropic>=0.39 ; python_version >= "3.8"
 # elasticsearch>=8.0
 
 # Testing
-pytest>=8.0
+pytest>=9.1.1
