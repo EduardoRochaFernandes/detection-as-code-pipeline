@@ -2,7 +2,7 @@
 # The in-memory matcher + test suite only need pyyaml + pytest; the rest are for
 # rule conversion (pysigma backends), deployment, and atomic orchestration.
 pyyaml>=6.0
-pytest>=8.0
+pytest>=9.1.1
 pysigma>=0.11
 pysigma-backend-elasticsearch>=1.1
 requests>=2.31
