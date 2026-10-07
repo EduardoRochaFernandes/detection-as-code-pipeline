@@ -28,3 +28,7 @@ triage-assistant/reports/
 Thumbs.db
 .idea/
 .vscode/
+
+# Tooling caches
+.ruff_cache/
+.venv*/
