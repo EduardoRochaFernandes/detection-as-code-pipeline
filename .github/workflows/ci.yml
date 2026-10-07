@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - run: ruff check .
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: |
+            pipeline/requirements.txt
+            triage-assistant/requirements.txt
+      - name: Install dependencies
+        run: pip install -r pipeline/requirements.txt -r triage-assistant/requirements.txt
+      - name: Detection + triage test suite (rule syntax, true-positive, false-positive, offline triage)
+        run: python -m pytest -v
+      - name: Rule catalogue is in sync with rules/sigma
+        run: python pipeline/rule_catalogue.py --check
+      - name: Convert Sigma rules (pySigma Lucene backend)
+        run: python pipeline/convert_rules.py --backend elasticsearch --out "$RUNNER_TEMP/converted"
+      - name: Triage assistant demo (no API keys)
+        working-directory: triage-assistant
+        run: python -m app.main --alert sample_alerts/example_rdp_bruteforce_alert.json --out "$RUNNER_TEMP/reports"
