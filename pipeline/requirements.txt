@@ -1,7 +1,7 @@
 # Detection-as-Code pipeline dependencies.
 # The in-memory matcher + test suite only need pyyaml + pytest; the rest are for
 # rule conversion (pysigma backends), deployment, and atomic orchestration.
-pyyaml>=6.0
+pyyaml>=6.0.3
 pytest>=8.0
 pysigma>=0.11
 pysigma-backend-elasticsearch>=1.1
