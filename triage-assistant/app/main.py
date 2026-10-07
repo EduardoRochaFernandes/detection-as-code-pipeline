@@ -68,6 +68,7 @@ def _maybe_escalate(rep: TriageReport) -> None:
 def poll_wazuh(interval_seconds: int = 30) -> None:  # pragma: no cover - needs live lab
     """READY TO RUN once the lab is up: poll Wazuh for new alerts and triage them."""
     import time
+
     import requests
     api = os.environ["WAZUH_API_URL"]
     auth = (os.environ["WAZUH_API_USER"], os.environ["WAZUH_API_PASSWORD"])

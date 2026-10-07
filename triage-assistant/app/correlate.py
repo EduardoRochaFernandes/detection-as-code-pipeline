@@ -14,8 +14,7 @@ used.
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from datetime import UTC, datetime, timedelta
 
 from app.models import NormalizedAlert, TimelineEvent
 
@@ -48,7 +47,7 @@ def _event_ts(event: dict) -> datetime:
     try:
         return datetime.fromisoformat(text)
     except ValueError:
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
 
 
 def find_related_events_local(
@@ -64,9 +63,9 @@ def find_related_events_local(
     for e in events:
         ts = _event_ts(e)
         if ts.tzinfo is None:
-            ts = ts.replace(tzinfo=timezone.utc)
-        a_start = start if start.tzinfo else start.replace(tzinfo=timezone.utc)
-        a_end = end if end.tzinfo else end.replace(tzinfo=timezone.utc)
+            ts = ts.replace(tzinfo=UTC)
+        a_start = start if start.tzinfo else start.replace(tzinfo=UTC)
+        a_end = end if end.tzinfo else end.replace(tzinfo=UTC)
         if not (a_start <= ts <= a_end):
             continue
         if (

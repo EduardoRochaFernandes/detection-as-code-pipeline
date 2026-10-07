@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Optional
+from typing import Any
 
 from pydantic import BaseModel, Field
 
@@ -12,14 +12,14 @@ class NormalizedAlert(BaseModel):
     alert_id: str
     source_system: str                       # "wazuh" | "elastic" | "manual"
     rule_name: str
-    mitre_technique: Optional[str] = None
+    mitre_technique: str | None = None
     severity: str                            # low | medium | high | critical
     timestamp: datetime
-    source_ip: Optional[str] = None
-    destination_ip: Optional[str] = None
-    username: Optional[str] = None
-    hostname: Optional[str] = None
-    file_hash: Optional[str] = None
+    source_ip: str | None = None
+    destination_ip: str | None = None
+    username: str | None = None
+    hostname: str | None = None
+    file_hash: str | None = None
     raw_log: dict = Field(default_factory=dict)
 
 

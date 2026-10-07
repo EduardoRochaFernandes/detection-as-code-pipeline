@@ -22,7 +22,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import yaml
 from sigma.collection import SigmaCollection
 
 

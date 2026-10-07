@@ -42,8 +42,8 @@ matcher itself is trivially portable and auditable.
 from __future__ import annotations
 
 import re
-from typing import Any, Iterable
-
+from collections.abc import Iterable
+from typing import Any
 
 # --------------------------------------------------------------------------- #
 # Single-field matching

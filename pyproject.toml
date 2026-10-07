@@ -1,0 +1,11 @@
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+extend-exclude = [".venv", ".venv-tmp"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]  # long prose lines in docstrings/prompts are intentional
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "triage-assistant/tests"]

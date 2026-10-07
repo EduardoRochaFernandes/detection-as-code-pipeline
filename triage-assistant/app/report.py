@@ -19,7 +19,6 @@ from __future__ import annotations
 import json
 import os
 import re
-from typing import Any
 
 from app.models import Enrichment, NormalizedAlert, TimelineEvent
 
@@ -100,7 +99,6 @@ def _generate_deterministic(alert, enrichment, timeline, score) -> str:
         f"- `{t.timestamp}` {'**[TRIGGER]** ' if t.is_trigger else ''}{t.event}"
         for t in timeline
     ]
-    intel = enrichment.model_dump()
     intel_line = (
         "Threat-intel enrichment was **offline** (no API keys configured); "
         "reputation data is unavailable."

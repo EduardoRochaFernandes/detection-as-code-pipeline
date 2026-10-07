@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from app.models import NormalizedAlert
@@ -28,13 +28,13 @@ def _parse_ts(value: Any) -> datetime:
     if isinstance(value, datetime):
         return value
     if value is None:
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
     # Wazuh timestamps look like 2026-07-04T09:15:19.123+0000; be forgiving.
     text = str(value).replace("Z", "+00:00")
     try:
         return datetime.fromisoformat(text)
     except ValueError:
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
 
 
 def from_wazuh_alert(raw: dict) -> NormalizedAlert:
