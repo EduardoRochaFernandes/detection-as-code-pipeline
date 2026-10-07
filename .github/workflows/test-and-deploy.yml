@@ -34,7 +34,7 @@ jobs:
       - name: Refresh coverage metrics
         run: python pipeline/compute_metrics.py
       - name: Upload validated + converted rules as build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: validated-detections
           path: |
