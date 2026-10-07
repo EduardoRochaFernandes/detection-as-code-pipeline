@@ -16,9 +16,9 @@ jobs:
   detection-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.11"
       - name: Install dependencies
@@ -34,7 +34,7 @@ jobs:
       - name: Refresh coverage metrics
         run: python pipeline/compute_metrics.py
       - name: Upload validated + converted rules as build artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: validated-detections
           path: |
@@ -47,9 +47,9 @@ jobs:
     runs-on: ubuntu-latest
     if: success()
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Download validated detections
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: validated-detections
       - name: Deploy passing rules to lab SIEM (or document artifact-only)
