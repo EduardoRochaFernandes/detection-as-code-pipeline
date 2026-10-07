@@ -1,7 +1,7 @@
 # Triage assistant (Phase 2) dependencies.
 # Core (deterministic offline mode) needs only pydantic + requests.
 pydantic>=2.5
-requests>=2.31
+requests>=2.34.2
 
 # Optional -- cloud LLM report synthesis (LLM_PROVIDER=anthropic)
 anthropic>=0.39 ; python_version >= "3.8"
