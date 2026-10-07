@@ -4,7 +4,7 @@ pydantic>=2.5
 requests>=2.31
 
 # Optional -- cloud LLM report synthesis (LLM_PROVIDER=anthropic)
-anthropic>=0.39 ; python_version >= "3.8"
+anthropic>=1.11.0 ; python_version >= "3.8"
 
 # Optional -- live SIEM correlation (find_related_events)
 # elasticsearch>=8.0
