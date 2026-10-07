@@ -49,7 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download validated detections
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: validated-detections
       - name: Deploy passing rules to lab SIEM (or document artifact-only)
