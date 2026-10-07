@@ -65,7 +65,7 @@ def _generate_anthropic(prompt: str) -> str:
     import anthropic  # pip install anthropic
     client = anthropic.Anthropic(api_key=os.environ["LLM_API_KEY"])
     resp = client.messages.create(
-        model=os.environ.get("LLM_MODEL", "claude-sonnet-5"),
+        model=os.environ.get("LLM_MODEL", "claude-sonnet-5-5"),
         max_tokens=1500,
         temperature=0,
         messages=[{"role": "user", "content": prompt}],
