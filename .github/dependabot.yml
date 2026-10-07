@@ -4,11 +4,20 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
   - package-ecosystem: pip
     directory: /pipeline
     schedule:
       interval: monthly
+    groups:
+      pip:
+        patterns: ["*"]
   - package-ecosystem: pip
     directory: /triage-assistant
     schedule:
       interval: monthly
+    groups:
+      pip:
+        patterns: ["*"]
